@@ -119,7 +119,7 @@ resource sqlDatabase 'Microsoft.Sql/servers/databases@2021-02-01-preview' = [for
 }]
 
 resource apiManagement 'Microsoft.ApiManagement/service@2021-01-01-preview' = {
-  name: '${resourceNamePrefix}-api-gateway'
+  name: '${resourceNamePrefix}-platform-api-gateway'
   location: location
   sku: {
     name: 'Consumption'
