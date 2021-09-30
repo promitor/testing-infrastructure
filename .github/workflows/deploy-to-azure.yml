@@ -57,7 +57,7 @@ jobs:
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
-          parameters: sqlServerPassword=${{ env.SQL_PASSWORD }}
+          parameters: sqlServerPassword=${{ secrets.SQL_PASSWORD }}
           template: ./deploy/europe.bicep
           deploymentMode: Complete
           failOnStdErr: false
