@@ -1,7 +1,9 @@
 param location string = resourceGroup().location
+param region string = 'Europe'
+param geo string = 'eu'
 
 resource automationAccount 'Microsoft.Automation/automationAccounts@2020-01-13-preview' = {
-  name: 'promitor-resource-discovery-1'
+  name: 'promitor-testing-resource-automation-${geo}-1'
   location: location
   properties: {
     sku: {
@@ -14,11 +16,11 @@ resource automationAccount 'Microsoft.Automation/automationAccounts@2020-01-13-p
   }
 }
 
-resource workflows 'Microsoft.Logic/workflows@2017-07-01' = [for i in range(1,3): {
-  name: 'promitor-testing-resource-discovery-eu-${i}'
+resource workflows 'Microsoft.Logic/workflows@2019-05-01' = [for i in range(1,3): {
+  name: 'promitor-testing-resource-workflow-${geo}-${i}'
   location: location
   tags: {
-    region: 'europe'
+    region: region
     app: 'promitor-resource-discovery-tests'
   }
   properties: {
