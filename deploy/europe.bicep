@@ -1,6 +1,8 @@
+@secure()
+param sqlServerPassword string
+
 param location string = resourceGroup().location
 param resourceNamePrefix string = 'promitor-testing-resource-${geo}'
-param resourceShortNamePrefix string = 'promitortestingresource${geo}'
 param region string = 'Europe'
 param geo string = 'eu'
 
@@ -21,7 +23,7 @@ resource automationAccount 'Microsoft.Automation/automationAccounts@2020-01-13-p
   }
 }
 
-resource workflows 'Microsoft.Logic/workflows@2019-05-01' = [for i in range(1,3): {
+resource workflows 'Microsoft.Logic/workflows@2019-05-01' = [for i in range(1, 3): {
   name: '${resourceNamePrefix}-workflow-${geo}-${i}'
   location: location
   tags: {
@@ -77,7 +79,7 @@ resource storageAccounts_promitor_name_resource 'Microsoft.Storage/storageAccoun
   }
 }
 
-resource serviceBusQueue 'Microsoft.ServiceBus/namespaces/queues@2021-06-01-preview' = [for i in range(1,15): {
+resource serviceBusQueue 'Microsoft.ServiceBus/namespaces/queues@2021-06-01-preview' = [for i in range(1, 15): {
   parent: serviceBusNamespace
   name: 'queue-${i}'
   properties: {
@@ -88,8 +90,7 @@ resource serviceBusQueue 'Microsoft.ServiceBus/namespaces/queues@2021-06-01-prev
 resource serviceBusTopic 'Microsoft.ServiceBus/namespaces/topics@2021-06-01-preview' = {
   parent: serviceBusNamespace
   name: 'topic-1'
-  properties: {
-  }
+  properties: {}
 }
 
 resource sqlServer 'Microsoft.Sql/servers@2021-02-01-preview' = {
@@ -97,12 +98,13 @@ resource sqlServer 'Microsoft.Sql/servers@2021-02-01-preview' = {
   location: location
   properties: {
     administratorLogin: 'tom'
+    administratorLoginPassword: sqlServerPassword
     version: '12.0'
     restrictOutboundNetworkAccess: 'Disabled'
   }
 }
 
-resource sqlDatabase 'Microsoft.Sql/servers/databases@2021-02-01-preview' = [for i in range(1,3): {
+resource sqlDatabase 'Microsoft.Sql/servers/databases@2021-02-01-preview' = [for i in range(1, 3): {
   parent: sqlServer
   name: '${resourceNamePrefix}-sql-db-${i}'
   location: location
@@ -233,10 +235,13 @@ resource autoscalingRules 'microsoft.insights/autoscalesettings@2015-04-01' = {
       }
     ]
   }
+  dependsOn: [
+    appPlan
+  ]
 }
 
 resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
-  name: '${resourceNamePrefix}-secret-store'
+  name: 'promitorsecretstore'
   location: location
   properties: {
     sku: {
@@ -314,25 +319,6 @@ resource cosmosDbDatabase 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@20
   }
 }
 
-resource cosmosDbEmptyContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2021-06-15' = {
-  parent: cosmosDbDatabase
-  name: 'empty-container'
-  properties: {
-    resource: {
-      id: 'empty-container'
-      partitionKey: {
-        paths: [
-          '/id'
-        ]
-        kind: 'Hash'
-      }
-    }
-  }
-  dependsOn: [
-    cosmosDbAccount
-  ]
-}
-
 resource cosmosDbDocumentationContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2021-06-15' = {
   parent: cosmosDbDatabase
   name: 'sample-docs'
@@ -352,8 +338,8 @@ resource cosmosDbDocumentationContainer 'Microsoft.DocumentDB/databaseAccounts/s
   ]
 }
 
-resource cosmosDbDatabaseThroughput 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings@2021-06-15' = {
-  parent: cosmosDbDatabase
+resource cosmosDbDatabaseThroughput 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings@2021-06-15' = {
+  parent: cosmosDbDocumentationContainer
   name: 'default'
   properties: {
     resource: {
