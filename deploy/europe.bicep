@@ -162,6 +162,21 @@ resource eventGridDomain 'Microsoft.EventGrid/domains@2021-06-01-preview' = {
   }
 }
 
+resource appPlan 'Microsoft.Web/serverfarms@2021-01-15' = {
+  name: '${resourceNamePrefix}-app-plan'
+  location: resourceGroup().location
+  kind: 'linux'
+  tags: {}
+  properties: {
+    reserved: true
+  }
+  sku: {
+    tier: 'Basic'
+    name: 'B1'
+  }
+  dependsOn: []
+}
+
 resource autoscalingRules 'microsoft.insights/autoscalesettings@2015-04-01' = {
   name: '${resourceNamePrefix}-app-plan-autoscaling'
   location: location
@@ -240,6 +255,28 @@ resource autoscalingRules 'microsoft.insights/autoscalesettings@2015-04-01' = {
   ]
 }
 
+resource webApp 'Microsoft.Web/sites@2018-11-01' = {
+  name: '${resourceNamePrefix}-web-app'
+  location: resourceGroup().location
+  tags: {}
+  properties: {
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE'
+          value: 'false'
+        }
+      ]
+      linuxFxVersion: 'DOCKER|mcr.microsoft.com/appsvc/staticsite:latest'
+    }
+    serverFarmId: appPlan.id
+    clientAffinityEnabled: false
+  }
+  dependsOn: [
+    appPlan
+  ]
+}
+
 resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
   name: 'promitorsecretstore'
   location: location
@@ -252,8 +289,8 @@ resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
     accessPolicies: []
   }
 }
-resource appPlan 'Microsoft.Web/serverfarms@2021-01-15' = {
-  name: appPlanName
+resource serverlessAppPlan 'Microsoft.Web/serverfarms@2021-01-15' = {
+  name: '${resourceNamePrefix}-serverless-app-plan'
   location: location
   sku: {
     name: 'Y1'
@@ -272,7 +309,7 @@ resource functionApp 'Microsoft.Web/sites@2021-01-15' = {
   location: location
   kind: 'functionapp'
   properties: {
-    serverFarmId: appPlan.id
+    serverFarmId: serverlessAppPlan.id
     reserved: true
     keyVaultReferenceIdentity: 'SystemAssigned'
   }
