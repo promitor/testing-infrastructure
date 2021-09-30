@@ -1,0 +1,822 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "certificates_AzureRunAsCertificate_base64Value": {
+            "type": "SecureString"
+        },
+        "IotHubs_promitor_iot_gateway_connectionString": {
+            "type": "SecureString"
+        },
+        "IotHubs_promitor_iot_gateway_containerName": {
+            "type": "SecureString"
+        },
+        "profiles_promitor_test_name": {
+            "defaultValue": "promitor-test",
+            "type": "String"
+        },
+        "components_promitor_name": {
+            "defaultValue": "promitor",
+            "type": "String"
+        },
+        "connections_azureeventgrid_name": {
+            "defaultValue": "azureeventgrid",
+            "type": "String"
+        },
+        "sites_promitor_function_app_name": {
+            "defaultValue": "promitor-function-app",
+            "type": "String"
+        },
+        "domains_event_grid_domain_name": {
+            "defaultValue": "event-grid-domain",
+            "type": "String"
+        },
+        "IotHubs_promitor_iot_gateway_name": {
+            "defaultValue": "promitor-iot-gateway",
+            "type": "String"
+        },
+        "vaults_promitor_secret_store_name": {
+            "defaultValue": "promitor-secret-store",
+            "type": "String"
+        },
+        "service_promitor_gateway_name": {
+            "defaultValue": "promitor-gateway",
+            "type": "String"
+        },
+        "accounts_promitor_data_share_name": {
+            "defaultValue": "promitor-data-share",
+            "type": "String"
+        },
+        "storageAccounts_promitordatalake_name": {
+            "defaultValue": "promitordatalake",
+            "type": "String"
+        },
+        "serverfarms_ASP_promitorsources_8b0e_name": {
+            "defaultValue": "ASP-promitorsources-8b0e",
+            "type": "String"
+        },
+        "routeTables_rt_promitor_managed_sql_name": {
+            "defaultValue": "rt-promitor-managed-sql",
+            "type": "String"
+        },
+        "webtests_cdn_metrics_feeder_promitor_name": {
+            "defaultValue": "cdn metrics feeder-promitor",
+            "type": "String"
+        },
+        "automationAccounts_promitor_sandbox_name": {
+            "defaultValue": "promitor-sandbox",
+            "type": "String"
+        },
+        "databaseAccounts_promitor_cosmos_db_name": {
+            "defaultValue": "promitor-cosmos-db",
+            "type": "String"
+        },
+        "metricalerts_cdn_metrics_feeder_promitor_name": {
+            "defaultValue": "cdn metrics feeder-promitor",
+            "type": "String"
+        },
+        "virtualNetworks_vnet_promitor_managed_sql_name": {
+            "defaultValue": "vnet-promitor-managed-sql",
+            "type": "String"
+        },
+        "metricalerts_web_app_staging_ping_promitor_name": {
+            "defaultValue": "web app staging ping-promitor",
+            "type": "String"
+        },
+        "metricalerts_function_staging_ping_promitor_name": {
+            "defaultValue": "function staging ping-promitor",
+            "type": "String"
+        },
+        "autoscalesettings_autoscale_promitor_app_plan_name": {
+            "defaultValue": "autoscale-promitor-app-plan",
+            "type": "String"
+        },
+        "metricalerts_web_app_production_ping_promitor_name": {
+            "defaultValue": "web app production ping-promitor",
+            "type": "String"
+        },
+        "networkSecurityGroups_nsg_promitor_managed_sql_name": {
+            "defaultValue": "nsg-promitor-managed-sql",
+            "type": "String"
+        },
+        "metricalerts_function_production_ping_promitor_name": {
+            "defaultValue": "function production ping-promitor",
+            "type": "String"
+        },
+        "actionGroups_Application_Insights_Smart_Detection_name": {
+            "defaultValue": "Application Insights Smart Detection",
+            "type": "String"
+        },
+        "smartdetectoralertrules_failure_anomalies___promitor_name": {
+            "defaultValue": "failure anomalies - promitor",
+            "type": "String"
+        },
+        "actiongroups_application_20insights_20smart_20detection_externalid": {
+            "defaultValue": "/subscriptions/0f9d7fea-99e8-4768-8672-06a28514f77e/resourceGroups/promitor-sources/providers/microsoft.insights/actiongroups/application%20insights%20smart%20detection",
+            "type": "String"
+        },
+        "serverFarms_promitor_app_plan_externalid": {
+            "defaultValue": "/subscriptions/0f9d7fea-99e8-4768-8672-06a28514f77e/resourceGroups/promitor-sources/providers/Microsoft.Web/serverFarms/promitor-app-plan",
+            "type": "String"
+        },
+        "webtests_function_production_ping_promitor_externalid": {
+            "defaultValue": "/subscriptions/0f9d7fea-99e8-4768-8672-06a28514f77e/resourceGroups/promitor-sources/providers/microsoft.insights/webtests/function production ping-promitor",
+            "type": "String"
+        },
+        "webtests_function_staging_ping_promitor_externalid": {
+            "defaultValue": "/subscriptions/0f9d7fea-99e8-4768-8672-06a28514f77e/resourceGroups/promitor-sources/providers/microsoft.insights/webtests/function staging ping-promitor",
+            "type": "String"
+        },
+        "webtests_web_app_production_ping_promitor_externalid": {
+            "defaultValue": "/subscriptions/0f9d7fea-99e8-4768-8672-06a28514f77e/resourceGroups/promitor-sources/providers/microsoft.insights/webtests/web app production ping-promitor",
+            "type": "String"
+        },
+        "webtests_web_app_staging_ping_promitor_externalid": {
+            "defaultValue": "/subscriptions/0f9d7fea-99e8-4768-8672-06a28514f77e/resourceGroups/promitor-sources/providers/microsoft.insights/webtests/web app staging ping-promitor",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.ApiManagement/service",
+            "apiVersion": "2021-01-01-preview",
+            "name": "[parameters('service_promitor_gateway_name')]",
+            "location": "West Europe",
+            "sku": {
+                "name": "Consumption",
+                "capacity": 0
+            },
+            "properties": {
+                "publisherEmail": "tom.kerkhove@hotmail.com",
+                "publisherName": "Promitor",
+                "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
+                "hostnameConfigurations": [
+                    {
+                        "type": "Proxy",
+                        "hostName": "[concat(parameters('service_promitor_gateway_name'), '.azure-api.net')]",
+                        "negotiateClientCertificate": false,
+                        "defaultSslBinding": true,
+                        "certificateSource": "BuiltIn"
+                    }
+                ],
+                "customProperties": {
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "False",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": "False",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": "False",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": "False",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": "False",
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "False"
+                },
+                "virtualNetworkType": "None",
+                "enableClientCertificate": false,
+                "apiVersionConstraint": {}
+            }
+        },
+        {
+            "type": "Microsoft.Automation/automationAccounts",
+            "apiVersion": "2020-01-13-preview",
+            "name": "[parameters('automationAccounts_promitor_sandbox_name')]",
+            "location": "westeurope",
+            "properties": {
+                "sku": {
+                    "name": "Basic"
+                },
+                "encryption": {
+                    "keySource": "Microsoft.Automation",
+                    "identity": {}
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Cdn/profiles",
+            "apiVersion": "2020-09-01",
+            "name": "[parameters('profiles_promitor_test_name')]",
+            "location": "Global",
+            "sku": {
+                "name": "Standard_Microsoft"
+            },
+            "kind": "cdn",
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Devices/IotHubs",
+            "apiVersion": "2021-07-01",
+            "name": "[parameters('IotHubs_promitor_iot_gateway_name')]",
+            "location": "westeurope",
+            "sku": {
+                "name": "F1",
+                "tier": "Free",
+                "capacity": 1
+            },
+            "properties": {
+                "ipFilterRules": [],
+                "eventHubEndpoints": {
+                    "events": {
+                        "retentionTimeInDays": 1,
+                        "partitionCount": 2
+                    }
+                },
+                "routing": {
+                    "endpoints": {
+                        "serviceBusQueues": [],
+                        "serviceBusTopics": [],
+                        "eventHubs": [],
+                        "storageContainers": []
+                    },
+                    "routes": [],
+                    "fallbackRoute": {
+                        "name": "$fallback",
+                        "source": "DeviceMessages",
+                        "condition": "true",
+                        "endpointNames": [
+                            "events"
+                        ],
+                        "isEnabled": true
+                    }
+                },
+                "storageEndpoints": {
+                    "$default": {
+                        "sasTtlAsIso8601": "PT1H",
+                        "connectionString": "[parameters('IotHubs_promitor_iot_gateway_connectionString')]",
+                        "containerName": "[parameters('IotHubs_promitor_iot_gateway_containerName')]"
+                    }
+                },
+                "messagingEndpoints": {
+                    "fileNotifications": {
+                        "lockDurationAsIso8601": "PT1M",
+                        "ttlAsIso8601": "PT1H",
+                        "maxDeliveryCount": 10
+                    }
+                },
+                "enableFileUploadNotifications": false,
+                "cloudToDevice": {
+                    "maxDeliveryCount": 10,
+                    "defaultTtlAsIso8601": "PT1H",
+                    "feedback": {
+                        "lockDurationAsIso8601": "PT1M",
+                        "ttlAsIso8601": "PT1H",
+                        "maxDeliveryCount": 10
+                    }
+                },
+                "features": "None"
+            }
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts",
+            "apiVersion": "2021-06-15",
+            "name": "[parameters('databaseAccounts_promitor_cosmos_db_name')]",
+            "location": "West Europe",
+            "tags": {
+                "defaultExperience": "Core (SQL)",
+                "hidden-cosmos-mmspecial": "",
+                "CosmosAccountType": "Non-Production"
+            },
+            "kind": "GlobalDocumentDB",
+            "identity": {
+                "type": "None"
+            },
+            "properties": {
+                "publicNetworkAccess": "Enabled",
+                "enableAutomaticFailover": false,
+                "enableMultipleWriteLocations": false,
+                "isVirtualNetworkFilterEnabled": false,
+                "virtualNetworkRules": [],
+                "disableKeyBasedMetadataWriteAccess": false,
+                "enableFreeTier": true,
+                "enableAnalyticalStorage": false,
+                "analyticalStorageConfiguration": {},
+                "databaseAccountOfferType": "Standard",
+                "networkAclBypass": "None",
+                "disableLocalAuth": false,
+                "consistencyPolicy": {
+                    "defaultConsistencyLevel": "Session",
+                    "maxIntervalInSeconds": 5,
+                    "maxStalenessPrefix": 100
+                },
+                "locations": [
+                    {
+                        "locationName": "West Europe",
+                        "provisioningState": "Succeeded",
+                        "failoverPriority": 0,
+                        "isZoneRedundant": false
+                    }
+                ],
+                "cors": [],
+                "capabilities": [],
+                "ipRules": [],
+                "backupPolicy": {
+                    "type": "Periodic",
+                    "periodicModeProperties": {
+                        "backupIntervalInMinutes": 240,
+                        "backupRetentionIntervalInHours": 8
+                    }
+                },
+                "networkAclBypassResourceIds": []
+            }
+        },
+        {
+            "type": "Microsoft.EventGrid/domains",
+            "apiVersion": "2021-06-01-preview",
+            "name": "[parameters('domains_event_grid_domain_name')]",
+            "location": "westeurope",
+            "sku": {
+                "name": "Basic"
+            },
+            "properties": {
+                "inputSchema": "CloudEventSchemaV1_0",
+                "publicNetworkAccess": "Enabled"
+            }
+        },
+        {
+            "type": "microsoft.insights/autoscalesettings",
+            "apiVersion": "2015-04-01",
+            "name": "[parameters('autoscalesettings_autoscale_promitor_app_plan_name')]",
+            "location": "West Europe",
+            "properties": {
+                "profiles": [
+                    {
+                        "name": "Auto created scale condition",
+                        "capacity": {
+                            "minimum": "1",
+                            "maximum": "2",
+                            "default": "1"
+                        },
+                        "rules": [
+                            {
+                                "metricTrigger": {
+                                    "metricName": "CpuPercentage",
+                                    "metricNamespace": "microsoft.web/serverfarms",
+                                    "metricResourceUri": "[parameters('serverFarms_promitor_app_plan_externalid')]",
+                                    "timeGrain": "PT1M",
+                                    "statistic": "Average",
+                                    "timeWindow": "PT10M",
+                                    "timeAggregation": "Average",
+                                    "operator": "GreaterThan",
+                                    "threshold": 70,
+                                    "dimensions": [],
+                                    "dividePerInstance": false
+                                },
+                                "scaleAction": {
+                                    "direction": "Increase",
+                                    "type": "ChangeCount",
+                                    "value": "1",
+                                    "cooldown": "PT5M"
+                                }
+                            },
+                            {
+                                "metricTrigger": {
+                                    "metricName": "CpuPercentage",
+                                    "metricNamespace": "microsoft.web/serverfarms",
+                                    "metricResourceUri": "[parameters('serverFarms_promitor_app_plan_externalid')]",
+                                    "timeGrain": "PT1M",
+                                    "statistic": "Average",
+                                    "timeWindow": "PT10M",
+                                    "timeAggregation": "Average",
+                                    "operator": "LessThan",
+                                    "threshold": 30,
+                                    "dimensions": [],
+                                    "dividePerInstance": false
+                                },
+                                "scaleAction": {
+                                    "direction": "Decrease",
+                                    "type": "ChangeCount",
+                                    "value": "1",
+                                    "cooldown": "PT5M"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "enabled": false,
+                "name": "[parameters('autoscalesettings_autoscale_promitor_app_plan_name')]",
+                "targetResourceUri": "[parameters('serverFarms_promitor_app_plan_externalid')]",
+                "notifications": [
+                    {
+                        "operation": "Scale",
+                        "email": {
+                            "sendToSubscriptionAdministrator": false,
+                            "sendToSubscriptionCoAdministrators": false,
+                            "customEmails": []
+                        },
+                        "webhooks": [
+                            {
+                                "serviceUri": "https://prod-69.westeurope.logic.azure.com:443/workflows/7f1c14693bbe455a8c6b6c244385e786/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=IPePqBI4j6xqlEwmvM_Z0T2HNZxqZlulvm7y7u6SmMw",
+                                "properties": {
+                                    "optional_key1": "optional_value1",
+                                    "optional_key2": "optional_value2"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "type": "microsoft.insights/components",
+            "apiVersion": "2020-02-02",
+            "name": "[parameters('components_promitor_name')]",
+            "location": "westeurope",
+            "tags": {
+                "hidden-link:/subscriptions/0f9d7fea-99e8-4768-8672-06a28514f77e/resourceGroups/promitor-sources/providers/Microsoft.Web/sites/promitor-function-app": "Resource"
+            },
+            "kind": "web",
+            "properties": {
+                "Application_Type": "web",
+                "Flow_Type": "Redfield",
+                "Request_Source": "IbizaAIExtension",
+                "RetentionInDays": 90,
+                "IngestionMode": "ApplicationInsights",
+                "publicNetworkAccessForIngestion": "Enabled",
+                "publicNetworkAccessForQuery": "Enabled"
+            }
+        },
+        {
+            "type": "microsoft.insights/webtests",
+            "apiVersion": "2015-05-01",
+            "name": "[parameters('webtests_cdn_metrics_feeder_promitor_name')]",
+            "location": "westeurope",
+            "tags": {
+                "hidden-link:/subscriptions/0f9d7fea-99e8-4768-8672-06a28514f77e/resourceGroups/promitor-sources/providers/microsoft.insights/components/promitor": "Resource",
+                "hidden-link:/subscriptions/0f9d7fea-99e8-4768-8672-06a28514f77e/resourceGroups/promitor-sources/providers/Microsoft.Web/sites/promitor-function-app": "Resource"
+            },
+            "properties": {
+                "SyntheticMonitorId": "[parameters('webtests_cdn_metrics_feeder_promitor_name')]",
+                "Name": "CDN Metrics Feeder",
+                "Enabled": true,
+                "Frequency": 300,
+                "Timeout": 120,
+                "Kind": "ping",
+                "RetryEnabled": true,
+                "Locations": [
+                    {
+                        "Id": "emea-nl-ams-azr"
+                    }
+                ],
+                "Configuration": {
+                    "WebTest": "<WebTest         Name=\"CDN Metrics Feeder\"         Id=\"e895fdc2-dc9a-4a54-aa6a-4ccef1bd866a\"         Enabled=\"True\"         CssProjectStructure=\"\"         CssIteration=\"\"         Timeout=\"120\"         WorkItemIds=\"\"         xmlns=\"http://microsoft.com/schemas/VisualStudio/TeamTest/2010\"         Description=\"\"         CredentialUserName=\"\"         CredentialPassword=\"\"         PreAuthenticate=\"True\"         Proxy=\"default\"         StopOnError=\"False\"         RecordedResultFile=\"\"         ResultsLocale=\"\">        <Items>        <Request         Method=\"GET\"         Guid=\"ab6b2d72-8187-2d10-20f5-7bc236c93049\"         Version=\"1.1\"         Url=\"https://promitor-autoscale-endpoint.azureedge.net/media/observability/event-grid-as-autoscaling-hub.png\"         ThinkTime=\"0\"         Timeout=\"120\"         ParseDependentRequests=\"False\"         FollowRedirects=\"True\"         RecordResult=\"True\"         Cache=\"False\"         ResponseTimeGoal=\"0\"         Encoding=\"utf-8\"         ExpectedHttpStatusCode=\"200\"         ExpectedResponseUrl=\"\"         ReportingName=\"\"         IgnoreHttpStatusCode=\"False\" />        </Items>        </WebTest>"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.KeyVault/vaults",
+            "apiVersion": "2021-06-01-preview",
+            "name": "[parameters('vaults_promitor_secret_store_name')]",
+            "location": "westeurope",
+            "properties": {
+                "sku": {
+                    "family": "A",
+                    "name": "Standard"
+                },
+                "tenantId": "c8819874-9e56-4e3f-b1a8-1c0325138f27",
+                "accessPolicies": [
+                    {
+                        "tenantId": "c8819874-9e56-4e3f-b1a8-1c0325138f27",
+                        "objectId": "2f27cd8c-fb42-4af3-8f70-ece2b396f220",
+                        "permissions": {
+                            "keys": [
+                                "Get",
+                                "List",
+                                "Update",
+                                "Create",
+                                "Import",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore"
+                            ],
+                            "secrets": [
+                                "Get",
+                                "List",
+                                "Set",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore"
+                            ],
+                            "certificates": [
+                                "Get",
+                                "List",
+                                "Update",
+                                "Create",
+                                "Import",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore",
+                                "ManageContacts",
+                                "ManageIssuers",
+                                "GetIssuers",
+                                "ListIssuers",
+                                "SetIssuers",
+                                "DeleteIssuers"
+                            ]
+                        }
+                    }
+                ],
+                "enabledForDeployment": false,
+                "enabledForDiskEncryption": false,
+                "enabledForTemplateDeployment": false,
+                "enableSoftDelete": true,
+                "softDeleteRetentionInDays": 90,
+                "enableRbacAuthorization": false,
+                "vaultUri": "[concat('https://', parameters('vaults_promitor_secret_store_name'), '.vault.azure.net/')]",
+                "provisioningState": "Succeeded"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2021-04-01",
+            "name": "[parameters('storageAccounts_promitordatalake_name')]",
+            "location": "westeurope",
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "kind": "StorageV2",
+            "properties": {
+                "isHnsEnabled": true,
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "keyType": "Account",
+                            "enabled": true
+                        },
+                        "blob": {
+                            "keyType": "Account",
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                },
+                "accessTier": "Hot"
+            }
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2021-01-15",
+            "name": "[parameters('serverfarms_ASP_promitorsources_8b0e_name')]",
+            "location": "West Europe",
+            "sku": {
+                "name": "Y1",
+                "tier": "Dynamic",
+                "size": "Y1",
+                "family": "Y",
+                "capacity": 0
+            },
+            "kind": "functionapp",
+            "properties": {
+                "perSiteScaling": false,
+                "elasticScaleEnabled": false,
+                "maximumElasticWorkerCount": 1,
+                "isSpot": false,
+                "reserved": false,
+                "isXenon": false,
+                "hyperV": false,
+                "targetWorkerCount": 0,
+                "targetWorkerSizeId": 0
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/apis",
+            "apiVersion": "2021-01-01-preview",
+            "name": "[concat(parameters('service_promitor_gateway_name'), '/orders-api')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_promitor_gateway_name'))]"
+            ],
+            "properties": {
+                "displayName": "Orders API",
+                "apiRevision": "1",
+                "subscriptionRequired": true,
+                "serviceUrl": "http://foo.bar",
+                "path": "orders/europe",
+                "protocols": [
+                    "https"
+                ],
+                "isCurrent": true
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/policies",
+            "apiVersion": "2021-01-01-preview",
+            "name": "[concat(parameters('service_promitor_gateway_name'), '/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_promitor_gateway_name'))]"
+            ],
+            "properties": {
+                "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.\r\n    - Only the <forward-request> policy element can appear within the <backend> section element.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.\r\n    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n-->\r\n<policies>\r\n  <inbound></inbound>\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound></outbound>\r\n</policies>",
+                "format": "xml"
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/products",
+            "apiVersion": "2021-01-01-preview",
+            "name": "[concat(parameters('service_promitor_gateway_name'), '/orders')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('service_promitor_gateway_name'))]"
+            ],
+            "properties": {
+                "displayName": "Orders",
+                "description": "fezf",
+                "subscriptionRequired": true,
+                "approvalRequired": false,
+                "state": "published"
+            }
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+            "apiVersion": "2021-06-15",
+            "name": "[concat(parameters('databaseAccounts_promitor_cosmos_db_name'), '/example-db')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_promitor_cosmos_db_name'))]"
+            ],
+            "properties": {
+                "resource": {
+                    "id": "example-db"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2021-01-15",
+            "name": "[parameters('sites_promitor_function_app_name')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_promitorsources_8b0e_name'))]"
+            ],
+            "kind": "functionapp",
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(parameters('sites_promitor_function_app_name'), '.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "[concat(parameters('sites_promitor_function_app_name'), '.scm.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_promitorsources_8b0e_name'))]",
+                "reserved": false,
+                "isXenon": false,
+                "hyperV": false,
+                "siteConfig": {
+                    "numberOfWorkers": 1,
+                    "acrUseManagedIdentityCreds": false,
+                    "alwaysOn": false,
+                    "http20Enabled": false,
+                    "functionAppScaleLimit": 0,
+                    "minimumElasticInstanceCount": 0
+                },
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "clientCertMode": "Required",
+                "hostNamesDisabled": false,
+                "customDomainVerificationId": "971C12B10DB24AB809E3AA942F44784415F2831D3E87B7DB66AA81AA72EE8579",
+                "containerSize": 1536,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": false,
+                "redundancyMode": "None",
+                "storageAccountRequired": false,
+                "keyVaultReferenceIdentity": "SystemAssigned"
+            }
+        },
+        {
+            "type": "Microsoft.DataShare/accounts/shares/dataSets",
+            "apiVersion": "2020-09-01",
+            "name": "[concat(parameters('accounts_promitor_data_share_name'), '/example/foo')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DataShare/accounts/shares', parameters('accounts_promitor_data_share_name'), 'example')]",
+                "[resourceId('Microsoft.DataShare/accounts', parameters('accounts_promitor_data_share_name'))]"
+            ],
+            "kind": "Container",
+            "properties": {
+                "containerName": "foo",
+                "subscriptionId": "0f9d7fea-99e8-4768-8672-06a28514f77e",
+                "resourceGroup": "promitor",
+                "storageAccountName": "promitor"
+            }
+        },
+        {
+            "type": "Microsoft.DataShare/accounts/shares/synchronizationSettings",
+            "apiVersion": "2020-09-01",
+            "name": "[concat(parameters('accounts_promitor_data_share_name'), '/example/example_synchronizationSetting')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DataShare/accounts/shares', parameters('accounts_promitor_data_share_name'), 'example')]",
+                "[resourceId('Microsoft.DataShare/accounts', parameters('accounts_promitor_data_share_name'))]"
+            ],
+            "kind": "ScheduleBased",
+            "properties": {
+                "recurrenceInterval": "Hour",
+                "synchronizationTime": "2021-08-26T11:09:20Z"
+            }
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+            "apiVersion": "2021-06-15",
+            "name": "[concat(parameters('databaseAccounts_promitor_cosmos_db_name'), '/example-db/empty-container')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('databaseAccounts_promitor_cosmos_db_name'), 'example-db')]",
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_promitor_cosmos_db_name'))]"
+            ],
+            "properties": {
+                "resource": {
+                    "id": "empty-container",
+                    "indexingPolicy": {
+                        "indexingMode": "consistent",
+                        "automatic": true,
+                        "includedPaths": [
+                            {
+                                "path": "/*"
+                            }
+                        ],
+                        "excludedPaths": [
+                            {
+                                "path": "/\"_etag\"/?"
+                            }
+                        ]
+                    },
+                    "partitionKey": {
+                        "paths": [
+                            "/foo"
+                        ],
+                        "kind": "Hash"
+                    },
+                    "uniqueKeyPolicy": {
+                        "uniqueKeys": []
+                    },
+                    "conflictResolutionPolicy": {
+                        "mode": "LastWriterWins",
+                        "conflictResolutionPath": "/_ts"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+            "apiVersion": "2021-06-15",
+            "name": "[concat(parameters('databaseAccounts_promitor_cosmos_db_name'), '/example-db/sample-docs')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('databaseAccounts_promitor_cosmos_db_name'), 'example-db')]",
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_promitor_cosmos_db_name'))]"
+            ],
+            "properties": {
+                "resource": {
+                    "id": "sample-docs",
+                    "indexingPolicy": {
+                        "indexingMode": "consistent",
+                        "automatic": true,
+                        "includedPaths": [
+                            {
+                                "path": "/*"
+                            }
+                        ],
+                        "excludedPaths": [
+                            {
+                                "path": "/\"_etag\"/?"
+                            }
+                        ]
+                    },
+                    "partitionKey": {
+                        "paths": [
+                            "/foo"
+                        ],
+                        "kind": "Hash"
+                    },
+                    "uniqueKeyPolicy": {
+                        "uniqueKeys": []
+                    },
+                    "conflictResolutionPolicy": {
+                        "mode": "LastWriterWins",
+                        "conflictResolutionPath": "/_ts"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings",
+            "apiVersion": "2021-06-15",
+            "name": "[concat(parameters('databaseAccounts_promitor_cosmos_db_name'), '/example-db/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('databaseAccounts_promitor_cosmos_db_name'), 'example-db')]",
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccounts_promitor_cosmos_db_name'))]"
+            ],
+            "properties": {
+                "resource": {
+                    "throughput": 400
+                }
+            }
+        }
+    ]
+}
