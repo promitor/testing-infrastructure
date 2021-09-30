@@ -1,0 +1,62 @@
+name: Deploy to Azure
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+    - 'deploy/**'
+    - '.github/workflows/deploy-to-azure.yml'
+
+jobs:
+  deploy_to_us:
+      name: Deploy to US
+      env:
+        AZURE_RESOURCEGROUP_NAME: "promitor-testing-infrastructure-us"
+      environment:
+        name: Promitor US
+      runs-on: ubuntu-latest
+      steps:
+        # Checkout code
+      - uses: actions/checkout@main
+
+          # Login to Azure
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+        # Deploy Bicep file
+      - name: deploy
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
+          template: ./deploy/us.bicep
+          deploymentMode: Complete
+          failOnStdErr: false
+
+  deploy_to_europe:
+      name: Deploy to Europe
+      env:
+        AZURE_RESOURCEGROUP_NAME: "promitor-testing-infrastructure-europe"
+      environment:
+        name: Promitor Europe
+      runs-on: ubuntu-latest
+      steps:
+        # Checkout code
+      - uses: actions/checkout@main
+
+          # Login to Azure
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+        # Deploy Bicep file
+      - name: deploy
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
+          template: ./deploy/europe.bicep
+          deploymentMode: Complete
+          failOnStdErr: false

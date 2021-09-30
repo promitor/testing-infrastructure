@@ -1,10 +1,12 @@
 param location string = resourceGroup().location
+param region string = 'USA'
+param geo string = 'us'
 
 resource workflow 'Microsoft.Logic/workflows@2019-05-01' = {
-  name: 'promitor-testing-resource-discovery-us-1'
+  name: 'promitor-testing-resource-${geo}-1'
   location: location
   tags: {
-    region: 'USA'
+    region: region
     app: 'promitor-resource-discovery-tests'
   }
   properties: {
