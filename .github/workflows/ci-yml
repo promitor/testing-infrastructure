@@ -10,6 +10,7 @@ on:
 name: CI
 jobs:
   us:
+    name: US
     runs-on: ubuntu-latest
     steps:
       # Checkout code
@@ -21,6 +22,7 @@ jobs:
       with:
         bicepFilePath: ./deploy/us.bicep
   europe:
+    name: Europe
     runs-on: ubuntu-latest
     steps:
       # Checkout code
