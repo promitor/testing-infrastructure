@@ -14,7 +14,7 @@ resource automationAccount 'Microsoft.Automation/automationAccounts@2020-01-13-p
   }
 }
 
-resource workflows 'Microsoft.Logic/workflows@2017-07-01' = [for i in range(1,3): {
+resource workflows 'Microsoft.Logic/workflows@2019-05-01' = [for i in range(1,3): {
   name: 'promitor-testing-resource-discovery-eu-${i}'
   location: location
   tags: {

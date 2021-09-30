@@ -1,6 +1,6 @@
 param location string = resourceGroup().location
 
-resource workflow 'Microsoft.Logic/workflows@2017-07-01' = {
+resource workflow 'Microsoft.Logic/workflows@2019-05-01' = {
   name: 'promitor-testing-resource-discovery-us-1'
   location: location
   tags: {
