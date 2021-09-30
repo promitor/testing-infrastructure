@@ -1,4 +1,12 @@
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+    - '.github/workflows/ci.yml'
+    - 'deploy/**'
+  
 name: CI
 jobs:
   us:
