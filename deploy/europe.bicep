@@ -289,31 +289,6 @@ resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
     accessPolicies: []
   }
 }
-resource serverlessAppPlan 'Microsoft.Web/serverfarms@2021-01-15' = {
-  name: '${resourceNamePrefix}-serverless-app-plan'
-  location: location
-  sku: {
-    name: 'Y1'
-    tier: 'Dynamic'
-    size: 'Y1'
-    family: 'Y'
-  }
-  kind: 'functionapp'
-  properties: {
-    reserved: true
-  }
-}
-
-resource functionApp 'Microsoft.Web/sites@2021-01-15' = {
-  name: '${resourceNamePrefix}-serverless-functions'
-  location: location
-  kind: 'functionapp'
-  properties: {
-    serverFarmId: serverlessAppPlan.id
-    reserved: true
-    keyVaultReferenceIdentity: 'SystemAssigned'
-  }
-}
 
 resource cosmosDbAccount 'Microsoft.DocumentDB/databaseAccounts@2021-06-15' = {
   name: '${resourceNamePrefix}-cosmos-db'
