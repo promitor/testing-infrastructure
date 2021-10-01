@@ -119,7 +119,7 @@ resource sqlDatabase 'Microsoft.Sql/servers/databases@2021-02-01-preview' = [for
 }]
 
 resource apiManagement 'Microsoft.ApiManagement/service@2021-01-01-preview' = {
-  name: '${resourceNamePrefix}-api-gateway'
+  name: '${resourceNamePrefix}-platform-api-gateway'
   location: location
   sku: {
     name: 'Consumption'
@@ -160,6 +160,21 @@ resource eventGridDomain 'Microsoft.EventGrid/domains@2021-06-01-preview' = {
     inputSchema: 'CloudEventSchemaV1_0'
     publicNetworkAccess: 'Enabled'
   }
+}
+
+resource appPlan 'Microsoft.Web/serverfarms@2021-01-15' = {
+  name: '${resourceNamePrefix}-app-plan'
+  location: resourceGroup().location
+  kind: 'linux'
+  tags: {}
+  properties: {
+    reserved: true
+  }
+  sku: {
+    tier: 'Basic'
+    name: 'B1'
+  }
+  dependsOn: []
 }
 
 resource autoscalingRules 'microsoft.insights/autoscalesettings@2015-04-01' = {
@@ -240,6 +255,28 @@ resource autoscalingRules 'microsoft.insights/autoscalesettings@2015-04-01' = {
   ]
 }
 
+resource webApp 'Microsoft.Web/sites@2018-11-01' = {
+  name: '${resourceNamePrefix}-web-app'
+  location: resourceGroup().location
+  tags: {}
+  properties: {
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE'
+          value: 'false'
+        }
+      ]
+      linuxFxVersion: 'DOCKER|mcr.microsoft.com/appsvc/staticsite:latest'
+    }
+    serverFarmId: appPlan.id
+    clientAffinityEnabled: false
+  }
+  dependsOn: [
+    appPlan
+  ]
+}
+
 resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
   name: 'promitorsecretstore'
   location: location
@@ -250,31 +287,6 @@ resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
     }
     tenantId: 'c8819874-9e56-4e3f-b1a8-1c0325138f27'
     accessPolicies: []
-  }
-}
-resource appPlan 'Microsoft.Web/serverfarms@2021-01-15' = {
-  name: appPlanName
-  location: location
-  sku: {
-    name: 'Y1'
-    tier: 'Dynamic'
-    size: 'Y1'
-    family: 'Y'
-  }
-  kind: 'functionapp'
-  properties: {
-    reserved: true
-  }
-}
-
-resource functionApp 'Microsoft.Web/sites@2021-01-15' = {
-  name: '${resourceNamePrefix}-serverless-functions'
-  location: location
-  kind: 'functionapp'
-  properties: {
-    serverFarmId: appPlan.id
-    reserved: true
-    keyVaultReferenceIdentity: 'SystemAssigned'
   }
 }
 
