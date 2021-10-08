@@ -29,27 +29,7 @@ resource workflowInWestEurope 'Microsoft.Logic/workflows@2019-05-01' = [for i in
   tags: {
     region: region
     app: 'promitor-resource-discovery-tests'
-  }
-  properties: {
-    state: 'Enabled'
-    definition: {
-      '$schema': 'https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#'
-      contentVersion: '1.0.0.0'
-      parameters: {}
-      triggers: {}
-      actions: {}
-      outputs: {}
-    }
-    parameters: {}
-  }
-}]
-
-resource workflowInWestEuropeWithMultipleAppTag 'Microsoft.Logic/workflows@2019-05-01' = [for i in range(1, 3): {
-  name: '${resourceNamePrefix}-workflow-multi-app-${geo}-${i}'
-  location: location
-  tags: {
-    region: region
-    app: 'multi-app-promitor-resource-discovery-tests-${i}'
+    instance: '${resourceNamePrefix}-workflow-${geo}-${i}'
   }
   properties: {
     state: 'Enabled'
@@ -71,6 +51,7 @@ resource workflowInNorthEurope 'Microsoft.Logic/workflows@2019-05-01' = [for i i
   tags: {
     region: region
     app: 'promitor-resource-discovery-tests'
+    instance: '${resourceNamePrefix}-workflow-${geo}-${i}'
   }
   properties: {
     state: 'Enabled'
