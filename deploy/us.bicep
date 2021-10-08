@@ -24,6 +24,27 @@ resource workflow 'Microsoft.Logic/workflows@2019-05-01' = {
   }
 }
 
+resource workflowWithMultipleAppTag 'Microsoft.Logic/workflows@2019-05-01' = [for i in range(1, 3): {
+  name: '${resourceNamePrefix}-workflow-multi-app-${geo}-${i}'
+  location: location
+  tags: {
+    region: region
+    app: 'multi-app-promitor-resource-discovery-tests-${i}'
+  }
+  properties: {
+    state: 'Enabled'
+    definition: {
+      '$schema': 'https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#'
+      contentVersion: '1.0.0.0'
+      parameters: {}
+      triggers: {}
+      actions: {}
+      outputs: {}
+    }
+    parameters: {}
+  }
+}]
+
 resource serverlessAppPlan 'Microsoft.Web/serverfarms@2021-01-15' = {
   name: '${resourceNamePrefix}-serverless-app-plan'
   location: location
