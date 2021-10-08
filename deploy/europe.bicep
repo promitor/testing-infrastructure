@@ -29,6 +29,7 @@ resource workflowInWestEurope 'Microsoft.Logic/workflows@2019-05-01' = [for i in
   tags: {
     region: region
     app: 'promitor-resource-discovery-tests'
+    instance: '${resourceNamePrefix}-workflow-${geo}-${i}'
   }
   properties: {
     state: 'Enabled'
@@ -50,6 +51,7 @@ resource workflowInNorthEurope 'Microsoft.Logic/workflows@2019-05-01' = [for i i
   tags: {
     region: region
     app: 'promitor-resource-discovery-tests'
+    instance: '${resourceNamePrefix}-workflow-${geo}-${i}'
   }
   properties: {
     state: 'Enabled'

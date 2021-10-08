@@ -3,12 +3,13 @@ param resourceNamePrefix string = 'promitor-testing-resource-${geo}'
 param region string = 'USA'
 param geo string = 'us'
 
-resource workflow 'Microsoft.Logic/workflows@2019-05-01' = {
-  name: 'promitor-testing-resource-${geo}-1'
+resource workflow 'Microsoft.Logic/workflows@2019-05-01' = [for i in range(1, 3): {
+  name: 'promitor-testing-resource-${geo}-${i}'
   location: location
   tags: {
     region: region
     app: 'promitor-resource-discovery-tests'
+    instance: '${resourceNamePrefix}-workflow-${geo}-${i}'
   }
   properties: {
     state: 'Enabled'
@@ -22,7 +23,7 @@ resource workflow 'Microsoft.Logic/workflows@2019-05-01' = {
     }
     parameters: {}
   }
-}
+}]
 
 resource serverlessAppPlan 'Microsoft.Web/serverfarms@2021-01-15' = {
   name: '${resourceNamePrefix}-serverless-app-plan'
