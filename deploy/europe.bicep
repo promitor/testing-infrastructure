@@ -67,12 +67,42 @@ resource workflowInNorthEurope 'Microsoft.Logic/workflows@2019-05-01' = [for i i
   }
 }]
 
+resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2021-06-01' = {
+  name: '${resourceNamePrefix}-logs'
+  location: location
+  properties: {
+    retentionInDays: 30
+    sku: {
+      name: 'PerGB2018'
+    }
+    features: {
+      immediatePurgeDataOn30Days: true
+    }
+  }
+}
+
 resource applicationInsights 'microsoft.insights/components@2020-02-02' = {
   name: '${resourceNamePrefix}-telemetry'
   location: location
   kind: 'web'
   properties: {
     Application_Type: 'web'
+    IngestionMode: 'LogAnalytics'
+    WorkspaceResourceId: logAnalyticsWorkspace.id
+    DisableLocalAuth: false
+  }
+  dependsOn:[
+    logAnalyticsWorkspace
+  ]
+}
+
+resource classicApplicationInsights 'microsoft.insights/components@2020-02-02' = {
+  name: '${resourceNamePrefix}-telemetry-classic'
+  location: location
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    RetentionInDays: 30
   }
 }
 
