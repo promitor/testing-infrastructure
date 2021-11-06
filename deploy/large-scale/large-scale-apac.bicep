@@ -23,12 +23,12 @@ resource workflowInEastAsia 'Microsoft.Logic/workflows@2019-05-01' = [for i in r
 }]
 
 resource workflowInEastAustralia 'Microsoft.Logic/workflows@2019-05-01' = [for i in range(1, 200): {
-  name: '${resourceNamePrefix}-workflow-we-${format('{0:D3}', i)}'
+  name: '${resourceNamePrefix}-workflow-aue-${format('{0:D3}', i)}'
   location: 'australiaeast'
   tags: {
     region: 'Australia'
     app: 'promitor-large-scale-testing'
-    instance: '${resourceNamePrefix}-workflow-we-${format('{0:D3}', i)}'
+    instance: '${resourceNamePrefix}-workflow-au-${format('{0:D3}', i)}'
   }
   properties: {
     state: 'Enabled'
