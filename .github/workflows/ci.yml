@@ -44,5 +44,17 @@ jobs:
     - name: Bicep Build
       uses: Azure/bicep-build-action@v1.0.0
       with:
-        bicepFilePath: ./deploy/large-scale.bicep
+        bicepFilePath: ./deploy/large-scale/large-scale-americas.bicep
+
+      # Lint Bicep file
+    - name: Bicep Build
+      uses: Azure/bicep-build-action@v1.0.0
+      with:
+        bicepFilePath: ./deploy/large-scale/large-scale-apac.bicep
+
+      # Lint Bicep file
+    - name: Bicep Build
+      uses: Azure/bicep-build-action@v1.0.0
+      with:
+        bicepFilePath: ./deploy/large-scale/large-scale-europe.bicep
         
