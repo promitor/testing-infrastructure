@@ -36,8 +36,8 @@ jobs:
           resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
           template: ./deploy/large-scale/large-scale-americas.bicep
           deploymentName: large-scale-americas-run-${{ github.run_number }}
-          deploymentMode: Complete
-          failOnStdErr: false
+          deploymentMode: Incremental
+          failOnStdErr: true
 
   deploy_to_apac:
       name: Deploy to APAC
@@ -65,8 +65,8 @@ jobs:
           resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
           template: ./deploy/large-scale/large-scale-apac.bicep
           deploymentName: large-scale-apac-run-${{ github.run_number }}
-          deploymentMode: Complete
-          failOnStdErr: false
+          deploymentMode: Incremental
+          failOnStdErr: true
 
   deploy_to_europe:
       name: Deploy to Europe
@@ -94,5 +94,5 @@ jobs:
           resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
           template: ./deploy/large-scale/large-scale-europe.bicep
           deploymentName: large-scale-europe-run-${{ github.run_number }}
-          deploymentMode: Complete
-          failOnStdErr: false
+          deploymentMode: Incremental
+          failOnStdErr: true
