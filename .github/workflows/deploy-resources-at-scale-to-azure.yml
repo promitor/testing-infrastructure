@@ -6,7 +6,7 @@ on:
       - main
     paths:
     - 'deploy/large-scale/**'
-    - '.github/workflows/deploy-resources-at-scale-to-azure'
+    - '.github/workflows/deploy-resources-at-scale-to-azure.yml'
 
 jobs:
 
