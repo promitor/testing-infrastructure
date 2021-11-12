@@ -1,4 +1,4 @@
-param resourceNamePrefix string = 'promitor-scale-resources-'
+param resourceNamePrefix string = 'promitor-scale-resources'
 param region string = 'Europe'
 
 resource workflowInNorthEurope 'Microsoft.Logic/workflows@2019-05-01' = [for i in range(1, 200): {

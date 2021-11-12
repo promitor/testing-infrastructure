@@ -1,4 +1,4 @@
-param resourceNamePrefix string = 'promitor-scale-resources-'
+param resourceNamePrefix string = 'promitor-scale-resources'
 
 resource workflowInEastUs 'Microsoft.Logic/workflows@2019-05-01' = [for i in range(1, 200): {
   name: '${resourceNamePrefix}-workflow-ue-${format('{0:D3}', i)}'
