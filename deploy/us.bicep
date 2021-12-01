@@ -92,6 +92,51 @@ resource vnet 'Microsoft.Network/virtualNetworks@2021-03-01' = {
   }
 }
 
+resource publicIpAddress 'Microsoft.Network/publicIpAddresses@2020-08-01' = {
+  name: '${resourceNamePrefix}-public-IP'
+  location: location
+  properties: {
+    publicIPAddressVersion: 'IPv4'
+    publicIPAllocationMethod: 'Static'
+    idleTimeoutInMinutes: 4
+  }
+  sku: {
+    name: 'Basic'
+    tier: 'Regional'
+  }
+  dependsOn: []
+}
+
+resource loadBalancer 'Microsoft.Network/loadBalancers@2020-07-01' = {
+  name: '${resourceNamePrefix}-load-balancer'
+  location: location
+  tags: {}
+  properties: {
+    frontendIPConfigurations: [
+      {
+        name: 'public-IP'
+        properties: {
+          publicIPAddress: {
+            id: publicIpAddress.id
+          }
+        }
+      }
+    ]
+    backendAddressPools: []
+    probes: []
+    loadBalancingRules: []
+    inboundNatRules: []
+    outboundRules: []
+  }
+  sku: {
+    name: 'Basic'
+    tier: 'Regional'
+  }
+  dependsOn: [
+    publicIpAddress
+  ]
+}
+
 resource cdn 'Microsoft.Cdn/profiles@2019-04-15' = {
   name: '${resourceNamePrefix}-cdn'
   location: location

@@ -1,0 +1,232 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.4.1008.15138",
+      "templateHash": "12226998960224675257"
+    }
+  },
+  "parameters": {
+    "mariaDbServerPassword": {
+      "type": "secureString"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "resourceNamePrefix": {
+      "type": "string",
+      "defaultValue": "[format('promitor-testing-resource-{0}', parameters('geo'))]"
+    },
+    "region": {
+      "type": "string",
+      "defaultValue": "USA"
+    },
+    "geo": {
+      "type": "string",
+      "defaultValue": "us"
+    }
+  },
+  "functions": [],
+  "resources": [
+    {
+      "copy": {
+        "name": "workflow",
+        "count": "[length(range(1, 3))]"
+      },
+      "type": "Microsoft.Logic/workflows",
+      "apiVersion": "2019-05-01",
+      "name": "[format('promitor-testing-resource-{0}-{1}', parameters('geo'), range(1, 3)[copyIndex()])]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "region": "[parameters('region')]",
+        "app": "promitor-resource-discovery-tests",
+        "instance": "[format('{0}-workflow-{1}-{2}', parameters('resourceNamePrefix'), parameters('geo'), range(1, 3)[copyIndex()])]"
+      },
+      "properties": {
+        "state": "Enabled",
+        "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {},
+          "triggers": {},
+          "actions": {},
+          "outputs": {}
+        },
+        "parameters": {}
+      }
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2021-01-15",
+      "name": "[format('{0}-serverless-app-plan', parameters('resourceNamePrefix'))]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "region": "[parameters('region')]",
+        "app": "promitor-resource-discovery-tests"
+      },
+      "sku": {
+        "name": "Y1",
+        "tier": "Dynamic",
+        "size": "Y1",
+        "family": "Y"
+      },
+      "kind": "functionapp",
+      "properties": {
+        "reserved": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2021-01-15",
+      "name": "[format('{0}-serverless-functions', parameters('resourceNamePrefix'))]",
+      "location": "[parameters('location')]",
+      "kind": "functionapp",
+      "tags": {
+        "region": "[parameters('region')]",
+        "app": "promitor-resource-discovery-tests"
+      },
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', format('{0}-serverless-app-plan', parameters('resourceNamePrefix')))]",
+        "reserved": true,
+        "keyVaultReferenceIdentity": "SystemAssigned"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', format('{0}-serverless-app-plan', parameters('resourceNamePrefix')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2021-03-01",
+      "name": "[format('{0}-vnet', parameters('resourceNamePrefix'))]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "region": "[parameters('region')]",
+        "app": "promitor-resource-discovery-tests"
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "10.0.0.0/16"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "subnet-1",
+            "properties": {
+              "addressPrefix": "10.0.0.0/24"
+            }
+          },
+          {
+            "name": "subnet-2",
+            "properties": {
+              "addressPrefix": "10.0.1.0/24"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2020-08-01",
+      "name": "[format('{0}-public-IP', parameters('resourceNamePrefix'))]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publicIPAddressVersion": "IPv4",
+        "publicIPAllocationMethod": "Static",
+        "idleTimeoutInMinutes": 4
+      },
+      "sku": {
+        "name": "Basic",
+        "tier": "Regional"
+      }
+    },
+    {
+      "type": "Microsoft.Network/loadBalancers",
+      "apiVersion": "2020-07-01",
+      "name": "[format('{0}-load-balancer', parameters('resourceNamePrefix'))]",
+      "location": "[parameters('location')]",
+      "tags": {},
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "public-IP",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', format('{0}-public-IP', parameters('resourceNamePrefix')))]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [],
+        "probes": [],
+        "loadBalancingRules": [],
+        "inboundNatRules": [],
+        "outboundRules": []
+      },
+      "sku": {
+        "name": "Basic",
+        "tier": "Regional"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', format('{0}-public-IP', parameters('resourceNamePrefix')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Cdn/profiles",
+      "apiVersion": "2019-04-15",
+      "name": "[format('{0}-cdn', parameters('resourceNamePrefix'))]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "region": "[parameters('region')]",
+        "app": "promitor-resource-discovery-tests"
+      },
+      "sku": {
+        "name": "Standard_Microsoft"
+      },
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.DBforMariaDB/servers",
+      "apiVersion": "2018-06-01",
+      "name": "[format('{0}-mariadb-server', parameters('resourceNamePrefix'))]",
+      "location": "East US",
+      "tags": {
+        "region": "[parameters('region')]",
+        "app": "promitor-resource-discovery-tests"
+      },
+      "sku": {
+        "capacity": 1,
+        "family": "Gen5",
+        "name": "B_Gen5_1",
+        "size": "51200",
+        "tier": "Basic"
+      },
+      "properties": {
+        "storageProfile": {
+          "backupRetentionDays": 7,
+          "geoRedundantBackup": "Disabled",
+          "storageAutogrow": "Enabled"
+        },
+        "version": "10.3",
+        "createMode": "Default",
+        "administratorLogin": "tom",
+        "administratorLoginPassword": "[parameters('mariaDbServerPassword')]"
+      }
+    },
+    {
+      "type": "Microsoft.DBforMariaDB/servers/databases",
+      "apiVersion": "2018-06-01",
+      "name": "[format('{0}/{1}', format('{0}-mariadb-server', parameters('resourceNamePrefix')), 'example-db-1')]",
+      "properties": {
+        "charset": "utf8",
+        "collation": "utf8_general_ci"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.DBforMariaDB/servers', format('{0}-mariadb-server', parameters('resourceNamePrefix')))]"
+      ]
+    }
+  ]
+}
