@@ -101,7 +101,7 @@ resource publicIpAddress 'Microsoft.Network/publicIpAddresses@2020-08-01' = {
     idleTimeoutInMinutes: 4
   }
   sku: {
-    name: 'Basic'
+    name: 'Standard'
     tier: 'Regional'
   }
   dependsOn: []
@@ -129,7 +129,7 @@ resource loadBalancer 'Microsoft.Network/loadBalancers@2020-07-01' = {
     outboundRules: []
   }
   sku: {
-    name: 'Basic'
+    name: 'Standard'
     tier: 'Regional'
   }
   dependsOn: [
