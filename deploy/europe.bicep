@@ -415,3 +415,20 @@ resource cosmosDbDatabaseThroughput 'Microsoft.DocumentDB/databaseAccounts/sqlDa
     cosmosDbAccount
   ]
 }
+
+resource mySQLServer 'Microsoft.DBforMySQL/servers@2017-12-01' = {
+  name: '${resourceNamePrefix}-mysql-srv'
+  location: location
+  sku: {
+    name: 'B_Gen4_1'
+    tier: 'Basic'
+  }
+  properties: {
+    createMode: 'Default'
+    version: '5.7'
+    administratorLogin: 'testadmin'
+    administratorLoginPassword: sqlServerPassword
+    sslEnforcement: 'Enabled'
+    minimalTlsVersion: 'TLS1_2'
+  }
+}
