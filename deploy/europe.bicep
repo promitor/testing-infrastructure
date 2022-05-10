@@ -420,8 +420,10 @@ resource mySQLServer 'Microsoft.DBforMySQL/servers@2017-12-01' = {
   name: '${resourceNamePrefix}-mysql-srv'
   location: location
   sku: {
-    name: 'B_Gen4_1'
+    name: 'B_Gen5_1'
     tier: 'Basic'
+    capacity: 1
+    family: 'Gen5'
   }
   properties: {
     createMode: 'Default'
