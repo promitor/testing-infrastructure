@@ -432,5 +432,8 @@ resource mySQLServer 'Microsoft.DBforMySQL/servers@2017-12-01' = {
     administratorLoginPassword: sqlServerPassword
     sslEnforcement: 'Enabled'
     minimalTlsVersion: 'TLS1_2'
+    storageProfile: {
+      storageMB: 5000
+    }
   }
 }
