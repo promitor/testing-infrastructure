@@ -18,7 +18,7 @@ jobs:
 
       # Lint Bicep file
     - name: Bicep Build
-      uses: Azure/bicep-build-action@v1.0.0
+      uses: Azure/bicep-build-action@v1.0.1
       with:
         bicepFilePath: ./deploy/us.bicep
   europe:
@@ -30,7 +30,7 @@ jobs:
 
       # Lint Bicep file
     - name: Bicep Build
-      uses: Azure/bicep-build-action@v1.0.0
+      uses: Azure/bicep-build-action@v1.0.1
       with:
         bicepFilePath: ./deploy/europe.bicep
   scale:
@@ -42,19 +42,19 @@ jobs:
 
       # Lint Bicep file
     - name: Bicep Build
-      uses: Azure/bicep-build-action@v1.0.0
+      uses: Azure/bicep-build-action@v1.0.1
       with:
         bicepFilePath: ./deploy/large-scale/large-scale-americas.bicep
 
       # Lint Bicep file
     - name: Bicep Build
-      uses: Azure/bicep-build-action@v1.0.0
+      uses: Azure/bicep-build-action@v1.0.1
       with:
         bicepFilePath: ./deploy/large-scale/large-scale-apac.bicep
 
       # Lint Bicep file
     - name: Bicep Build
-      uses: Azure/bicep-build-action@v1.0.0
+      uses: Azure/bicep-build-action@v1.0.1
       with:
         bicepFilePath: ./deploy/large-scale/large-scale-europe.bicep
         
