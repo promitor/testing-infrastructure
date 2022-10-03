@@ -7,7 +7,6 @@ param region string = 'Europe'
 param geo string = 'eu'
 
 param alternativeLocation string = 'northeurope'
-param appPlanName string = '${resourceNamePrefix}-app-plan'
 
 resource automationAccount 'Microsoft.Automation/automationAccounts@2020-01-13-preview' = {
   name: '${resourceNamePrefix}-automation-1'
