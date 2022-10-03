@@ -152,7 +152,7 @@ resource cdn 'Microsoft.Cdn/profiles@2019-04-15' = {
 
 resource mariaDbServer 'Microsoft.DBforMariaDB/servers@2018-06-01' = {
   name: '${resourceNamePrefix}-mariadb-server'
-  location: 'East US'
+  location: location
   tags: {
     region: region
     app: 'promitor-resource-discovery-tests'
