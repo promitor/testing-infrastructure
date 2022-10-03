@@ -8,7 +8,6 @@ param geo string = 'eu'
 
 param alternativeLocation string = 'northeurope'
 param appPlanName string = '${resourceNamePrefix}-app-plan'
-param appPlanResourceId string = resourceId('Microsoft.Web/serverFarms', appPlanName)
 
 resource automationAccount 'Microsoft.Automation/automationAccounts@2020-01-13-preview' = {
   name: '${resourceNamePrefix}-automation-1'
@@ -225,7 +224,6 @@ resource appPlan 'Microsoft.Web/serverfarms@2021-01-15' = {
     tier: 'Basic'
     name: 'B1'
   }
-  dependsOn: []
 }
 
 resource autoscalingRules 'microsoft.insights/autoscalesettings@2015-04-01' = {
@@ -245,7 +243,7 @@ resource autoscalingRules 'microsoft.insights/autoscalesettings@2015-04-01' = {
             metricTrigger: {
               metricName: 'CpuPercentage'
               metricNamespace: 'microsoft.web/serverfarms'
-              metricResourceUri: appPlanResourceId
+              metricResourceUri: appPlan.id
               timeGrain: 'PT1M'
               statistic: 'Average'
               timeWindow: 'PT10M'
@@ -266,7 +264,7 @@ resource autoscalingRules 'microsoft.insights/autoscalesettings@2015-04-01' = {
             metricTrigger: {
               metricName: 'CpuPercentage'
               metricNamespace: 'microsoft.web/serverfarms'
-              metricResourceUri: appPlanResourceId
+              metricResourceUri: appPlan.id
               timeGrain: 'PT1M'
               statistic: 'Average'
               timeWindow: 'PT10M'
@@ -288,7 +286,7 @@ resource autoscalingRules 'microsoft.insights/autoscalesettings@2015-04-01' = {
     ]
     enabled: false
     name: '${resourceNamePrefix}-app-plan-autoscaling'
-    targetResourceUri: appPlanResourceId
+    targetResourceUri: appPlan.id
     notifications: [
       {
         operation: 'Scale'
@@ -301,9 +299,6 @@ resource autoscalingRules 'microsoft.insights/autoscalesettings@2015-04-01' = {
       }
     ]
   }
-  dependsOn: [
-    appPlan
-  ]
 }
 
 resource webApp 'Microsoft.Web/sites@2018-11-01' = {
@@ -323,9 +318,6 @@ resource webApp 'Microsoft.Web/sites@2018-11-01' = {
     serverFarmId: appPlan.id
     clientAffinityEnabled: false
   }
-  dependsOn: [
-    appPlan
-  ]
 }
 
 resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
@@ -396,9 +388,6 @@ resource cosmosDbDocumentationContainer 'Microsoft.DocumentDB/databaseAccounts/s
       }
     }
   }
-  dependsOn: [
-    cosmosDbAccount
-  ]
 }
 
 resource cosmosDbDatabaseThroughput 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings@2021-06-15' = {
@@ -409,9 +398,6 @@ resource cosmosDbDatabaseThroughput 'Microsoft.DocumentDB/databaseAccounts/sqlDa
       throughput: 400
     }
   }
-  dependsOn: [
-    cosmosDbAccount
-  ]
 }
 
 resource mySQLServer 'Microsoft.DBforMySQL/servers@2017-12-01' = {
