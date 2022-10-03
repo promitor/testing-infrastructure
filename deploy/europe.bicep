@@ -91,9 +91,6 @@ resource applicationInsights 'microsoft.insights/components@2020-02-02' = {
     WorkspaceResourceId: logAnalyticsWorkspace.id
     DisableLocalAuth: false
   }
-  dependsOn:[
-    logAnalyticsWorkspace
-  ]
 }
 
 resource classicApplicationInsights 'microsoft.insights/components@2020-02-02' = {
