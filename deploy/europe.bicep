@@ -416,7 +416,7 @@ resource mySQLServer 'Microsoft.DBforMySQL/servers@2017-12-01' = {
     sslEnforcement: 'Enabled'
     minimalTlsVersion: 'TLS1_2'
     storageProfile: {
-      storageMB: 5000
+      storageMB: 5120
     }
   }
 }
