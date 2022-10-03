@@ -6,6 +6,7 @@ param resourceNamePrefix string = 'promitor-testing-resource-${geo}'
 param region string = 'Europe'
 param geo string = 'eu'
 
+param alternativeLocation string = 'northeurope'
 param appPlanName string = '${resourceNamePrefix}-app-plan'
 param appPlanResourceId string = resourceId('Microsoft.Web/serverFarms', appPlanName)
 
@@ -47,7 +48,7 @@ resource workflowInWestEurope 'Microsoft.Logic/workflows@2019-05-01' = [for i in
 
 resource workflowInNorthEurope 'Microsoft.Logic/workflows@2019-05-01' = [for i in range(4, 3): {
   name: '${resourceNamePrefix}-workflow-${geo}-${i}'
-  location: 'northeurope'
+  location: alternativeLocation
   tags: {
     region: region
     app: 'promitor-resource-discovery-tests'

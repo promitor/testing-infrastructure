@@ -104,7 +104,6 @@ resource publicIpAddress 'Microsoft.Network/publicIpAddresses@2020-08-01' = {
     name: 'Standard'
     tier: 'Regional'
   }
-  dependsOn: []
 }
 
 resource loadBalancer 'Microsoft.Network/loadBalancers@2020-07-01' = {
@@ -132,9 +131,6 @@ resource loadBalancer 'Microsoft.Network/loadBalancers@2020-07-01' = {
     name: 'Standard'
     tier: 'Regional'
   }
-  dependsOn: [
-    publicIpAddress
-  ]
 }
 
 resource cdn 'Microsoft.Cdn/profiles@2019-04-15' = {
