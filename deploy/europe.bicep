@@ -429,7 +429,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
       {
         name: 'hello-world'
         properties: {
-          image: mcr.microsoft.com/azuredocs/aci-helloworld
+          image: 'mcr.microsoft.com/azuredocs/aci-helloworld'
           ports: [
             {
               port: 80
@@ -438,7 +438,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
           ]
           resources: {
             requests: {
-              cpu: 0.5
+              cpu: 1
               memoryInGB: 1
             }
           }
@@ -446,7 +446,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
       }
     ]
     osType: 'Linux'
-    restartPolicy: restartPolicy
+    restartPolicy: 'Always'
     ipAddress: {
       type: 'Public'
       ports: [
