@@ -429,7 +429,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
       {
         name: 'hello-world'
         properties: {
-          image: mcr.microsoft.com/azuredocs/aci-helloworld
+          image: 'mcr.microsoft.com/azuredocs/aci-helloworld'
           ports: [
             {
               port: 80
