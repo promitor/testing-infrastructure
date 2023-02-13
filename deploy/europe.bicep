@@ -446,7 +446,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
       }
     ]
     osType: 'Linux'
-    restartPolicy: restartPolicy
+    restartPolicy: 'Always'
     ipAddress: {
       type: 'Public'
       ports: [
