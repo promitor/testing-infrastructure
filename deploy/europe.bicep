@@ -432,7 +432,7 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2021-09-01'
           image: 'mcr.microsoft.com/azuredocs/aci-helloworld'
           ports: [
             {
-              port: 80
+              port: 8080
               protocol: 'TCP'
             }
           ]
