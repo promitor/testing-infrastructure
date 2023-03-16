@@ -136,7 +136,7 @@ resource serviceBusQueue 'Microsoft.ServiceBus/namespaces/queues@2021-06-01-prev
   }
 }]
 
-resource serviceBusTopic 'Microsoft.ServiceBus/namespaces/topics@2021-06-01-preview' = {
+resource serviceBusTopic 'Microsoft.ServiceBus/namespaces/topics@2021-11-01' = {
   parent: serviceBusNamespace
   name: 'topic-1'
   properties: {}
