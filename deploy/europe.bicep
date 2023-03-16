@@ -128,7 +128,7 @@ resource storageAccounts_promitor_name_resource 'Microsoft.Storage/storageAccoun
   }
 }
 
-resource serviceBusQueue 'Microsoft.ServiceBus/namespaces/queues@2021-06-01-preview' = [for i in range(1, 15): {
+resource serviceBusQueue 'Microsoft.ServiceBus/namespaces/queues@2021-11-01' = [for i in range(1, 15): {
   parent: serviceBusNamespace
   name: 'queue-${i}'
   properties: {
