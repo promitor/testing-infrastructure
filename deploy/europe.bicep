@@ -142,7 +142,7 @@ resource serviceBusTopic 'Microsoft.ServiceBus/namespaces/topics@2021-06-01-prev
   properties: {}
 }
 
-resource sqlServer 'Microsoft.Sql/servers@2021-02-01-preview' = {
+resource sqlServer 'Microsoft.Sql/servers@2021-11-01' = {
   name: '${resourceNamePrefix}-sql-server'
   location: location
   properties: {
