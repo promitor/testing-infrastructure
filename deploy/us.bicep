@@ -106,7 +106,7 @@ resource publicIpAddress 'Microsoft.Network/publicIpAddresses@2022-09-01' = {
   }
 }
 
-resource loadBalancer 'Microsoft.Network/loadBalancers@2020-07-01' = {
+resource loadBalancer 'Microsoft.Network/loadBalancers@2022-09-01' = {
   name: '${resourceNamePrefix}-load-balancer'
   location: location
   tags: {}
