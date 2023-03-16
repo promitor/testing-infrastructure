@@ -363,7 +363,7 @@ resource cosmosDbAccount 'Microsoft.DocumentDB/databaseAccounts@2021-06-15' = {
   }
 }
 
-resource cosmosDbDatabase 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2021-06-15' = {
+resource cosmosDbDatabase 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2022-11-15' = {
   parent: cosmosDbAccount
   name: 'example-db'
   properties: {
