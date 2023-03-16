@@ -211,7 +211,7 @@ resource eventGridDomain 'Microsoft.EventGrid/domains@2021-06-01-preview' = {
   }
 }
 
-resource appPlan 'Microsoft.Web/serverfarms@2021-01-15' = {
+resource appPlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: '${resourceNamePrefix}-app-plan'
   location: resourceGroup().location
   kind: 'linux'
