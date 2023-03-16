@@ -102,7 +102,7 @@ resource classicApplicationInsights 'microsoft.insights/components@2020-02-02' =
   }
 }
 
-resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2021-06-01-preview' = {
+resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2021-11-01' = {
   name: '${resourceNamePrefix}-messaging'
   location: location
   sku: {
