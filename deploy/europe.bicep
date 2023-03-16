@@ -225,7 +225,7 @@ resource appPlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   }
 }
 
-resource autoscalingRules 'microsoft.insights/autoscalesettings@2015-04-01' = {
+resource autoscalingRules 'microsoft.insights/autoscalesettings@2022-10-01' = {
   name: '${resourceNamePrefix}-app-plan-autoscaling'
   location: location
   properties: {
