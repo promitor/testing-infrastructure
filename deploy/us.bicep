@@ -133,7 +133,7 @@ resource loadBalancer 'Microsoft.Network/loadBalancers@2020-07-01' = {
   }
 }
 
-resource cdn 'Microsoft.Cdn/profiles@2019-04-15' = {
+resource cdn 'Microsoft.Cdn/profiles@2021-06-01' = {
   name: '${resourceNamePrefix}-cdn'
   location: location
   tags: {
