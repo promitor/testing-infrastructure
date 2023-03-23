@@ -96,6 +96,9 @@ resource publicIpAddress 'Microsoft.Network/publicIpAddresses@2022-09-01' = {
   name: '${resourceNamePrefix}-public-IP'
   location: location
   properties: {
+    dnsSettings: {
+      domainNameLabel: '${resourceNamePrefix}-public-ip'
+    }
     publicIPAddressVersion: 'IPv4'
     publicIPAllocationMethod: 'Static'
     idleTimeoutInMinutes: 4
@@ -130,6 +133,45 @@ resource loadBalancer 'Microsoft.Network/loadBalancers@2022-09-01' = {
   sku: {
     name: 'Standard'
     tier: 'Regional'
+  }
+}
+
+resource trafficManager 'Microsoft.Network/trafficmanagerprofiles@2018-08-01' = {
+  name: '${resourceNamePrefix}-traffic-manager'
+  location: 'global'
+  properties: {
+    profileStatus: 'Enabled'
+    trafficRoutingMethod: 'Priority'
+    dnsConfig: {
+      relativeName: '${resourceNamePrefix}-traffic-manager'
+      ttl: 300
+    }
+    monitorConfig: {
+      protocol: 'HTTPS'
+      port: 443
+      path: '/'
+      expectedStatusCodeRanges: [
+        {
+          min: 200
+          max: 202
+        }
+        {
+          min: 301
+          max: 302
+        }
+      ]
+    }
+    endpoints: [
+      {
+        type: 'Microsoft.Network/trafficManagerProfiles/externalEndpoints'
+        name: 'public-ip'
+        properties: {
+          target: publicIpAddress.properties.dnsSettings.fqdn
+          endpointStatus: 'Enabled'
+          endpointLocation: location
+        }
+      }
+    ]
   }
 }
 
