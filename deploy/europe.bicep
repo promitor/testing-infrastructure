@@ -168,7 +168,7 @@ resource sqlDatabase 'Microsoft.Sql/servers/databases@2021-11-01' = [for i in ra
 }]
 
 resource apiManagement 'Microsoft.ApiManagement/service@2022-08-01' = {
-  name: '${resourceNamePrefix}-platform-api-gateway-instance'
+  name: '${resourceNamePrefix}-api-gateway'
   location: location
   sku: {
     name: 'Consumption'
@@ -299,7 +299,7 @@ resource autoscalingRules 'microsoft.insights/autoscalesettings@2022-10-01' = {
 
 resource webApp 'Microsoft.Web/sites@2022-09-01' = {
   name: '${resourceNamePrefix}-web-app'
-  location: resourceGroup().location
+  location: 'northeurope'
   tags: {}
   properties: {
     siteConfig: {
