@@ -5,6 +5,9 @@
       "rules": {
         "no-loc-expr-outside-params": {
           "level": "Off"
+        },
+        "no-hardcoded-location": {
+          "level": "Off"
         }
       }
     }
