@@ -32,7 +32,7 @@ jobs:
       - name: Deploy to Azure (Americas)
         uses: azure/arm-deploy@v1
         with:
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          subscriptionId: ${{ vars.AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
           template: ./deploy/large-scale/large-scale-americas.bicep
           deploymentName: large-scale-americas-run-${{ github.run_number }}
@@ -61,7 +61,7 @@ jobs:
       - name: Deploy to Azure (APAC)
         uses: azure/arm-deploy@v1
         with:
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          subscriptionId: ${{ vars.AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
           template: ./deploy/large-scale/large-scale-apac.bicep
           deploymentName: large-scale-apac-run-${{ github.run_number }}
@@ -90,7 +90,7 @@ jobs:
       - name: Deploy to Azure (Europe)
         uses: azure/arm-deploy@v1
         with:
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          subscriptionId: ${{ vars.AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
           template: ./deploy/large-scale/large-scale-europe.bicep
           deploymentName: large-scale-europe-run-${{ github.run_number }}
