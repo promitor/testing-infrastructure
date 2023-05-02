@@ -143,7 +143,7 @@ resource trafficManager 'Microsoft.Network/trafficmanagerprofiles@2018-08-01' = 
     profileStatus: 'Enabled'
     trafficRoutingMethod: 'Priority'
     dnsConfig: {
-      relativeName: '${resourceNamePrefix}-traffic-manager'
+      relativeName: '${resourceNamePrefix}-traffic-router'
       ttl: 300
     }
     monitorConfig: {
