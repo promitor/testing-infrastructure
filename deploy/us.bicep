@@ -62,7 +62,7 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
   }
 }
 
-resource vnet 'Microsoft.Network/virtualNetworks@2022-09-01' = {
+resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' = {
   name: '${resourceNamePrefix}-vnet'
   location: location
   tags: {
