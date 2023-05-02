@@ -421,7 +421,7 @@ resource mySQLServer 'Microsoft.DBforMySQL/servers@2017-12-01' = {
   }
 }
 
-resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2022-09-01' = {
+resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2023-05-01' = {
   name: '${resourceNamePrefix}-aci'
   location: location
   properties: {
