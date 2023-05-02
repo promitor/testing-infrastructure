@@ -168,7 +168,7 @@ resource sqlDatabase 'Microsoft.Sql/servers/databases@2021-11-01' = [for i in ra
 }]
 
 resource apiManagement 'Microsoft.ApiManagement/service@2022-08-01' = {
-  name: '${resourceNamePrefix}-platform-api-gateway'
+  name: '${resourceNamePrefix}-platform-api-gateway-instance'
   location: location
   sku: {
     name: 'Consumption'
@@ -202,9 +202,6 @@ resource iotHub 'Microsoft.Devices/IotHubs@2021-07-02' = {
 resource eventGridDomain 'Microsoft.EventGrid/domains@2022-06-15' = {
   name: '${resourceNamePrefix}-event-domains'
   location: location
-  sku: {
-    name: 'Basic'
-  }
   properties: {
     inputSchema: 'CloudEventSchemaV1_0'
     publicNetworkAccess: 'Enabled'
@@ -213,7 +210,7 @@ resource eventGridDomain 'Microsoft.EventGrid/domains@2022-06-15' = {
 
 resource appPlan 'Microsoft.Web/serverfarms@2022-09-01' = {
   name: '${resourceNamePrefix}-app-plan'
-  location: resourceGroup().location
+  location: 'northeurope'
   kind: 'linux'
   tags: {}
   properties: {

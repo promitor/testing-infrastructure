@@ -93,11 +93,11 @@ resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' = {
 }
 
 resource publicIpAddress 'Microsoft.Network/publicIpAddresses@2022-11-01' = {
-  name: '${resourceNamePrefix}-public-IP'
+  name: '${resourceNamePrefix}-public-IP-resource'
   location: location
   properties: {
     dnsSettings: {
-      domainNameLabel: '${resourceNamePrefix}-public-ip'
+      domainNameLabel: '${resourceNamePrefix}-public-ip-resource'
     }
     publicIPAddressVersion: 'IPv4'
     publicIPAllocationMethod: 'Static'
@@ -173,19 +173,6 @@ resource trafficManager 'Microsoft.Network/trafficmanagerprofiles@2018-08-01' = 
       }
     ]
   }
-}
-
-resource cdn 'Microsoft.Cdn/profiles@2021-06-01' = {
-  name: '${resourceNamePrefix}-cdn'
-  location: location
-  tags: {
-    region: region
-    app: 'promitor-resource-discovery-tests'
-  }
-  sku: {
-    name: 'Standard_Microsoft'
-  }
-  properties: {}
 }
 
 resource mariaDbServer 'Microsoft.DBforMariaDB/servers@2018-06-01' = {
