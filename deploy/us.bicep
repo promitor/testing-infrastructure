@@ -136,7 +136,7 @@ resource loadBalancer 'Microsoft.Network/loadBalancers@2022-11-01' = {
   }
 }
 
-resource trafficManager 'Microsoft.Network/trafficmanagerprofiles@2018-08-01' = {
+resource trafficManager 'Microsoft.Network/trafficmanagerprofiles@2022-04-01' = {
   name: '${resourceNamePrefix}-traffic-manager'
   location: 'global'
   properties: {
