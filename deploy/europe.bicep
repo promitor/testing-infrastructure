@@ -189,7 +189,7 @@ resource cdn 'Microsoft.Cdn/profiles@2021-06-01' = {
   properties: {}
 }
 
-resource iotHub 'Microsoft.Devices/IotHubs@2021-07-02' = {
+resource iotHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
   name: '${resourceNamePrefix}-iot-gateway'
   location: location
   sku: {
