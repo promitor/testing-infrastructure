@@ -47,7 +47,7 @@ resource serverlessAppPlan 'Microsoft.Web/serverfarms@2022-09-01' = {
   }
 }
 
-resource functionApp 'Microsoft.Web/sites@2022-09-01' = {
+resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
   name: '${resourceNamePrefix}-serverless-functions'
   location: location
   kind: 'functionapp'
